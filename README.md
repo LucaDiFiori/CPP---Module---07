@@ -10,6 +10,8 @@ This module is designed to help you understand Templates in CPP.
 - [TEMPLATES IN C++](#templates-in-c++)
     - [Function Templates](#function-templates)
     - [Class Templates](#class-templates)
+    - [Multiple Template Parameters](#multiple-template-parameters)
+    - [Template Specialization](#template-specialization)
 ***
 ***
 
@@ -95,11 +97,10 @@ T add(T a, T b) {
     return a + b;
 }
 ```
-- **typename T**: **T** is a placeholder for a data type, can be any identifier. The keyword **typename** can 
-also be replaced by class in this context, as they mean the same in templates.
+- **typename T**: **T** is a placeholder for a data type, can be any identifier. 
+- **typename vs class**: In the context of templates,the keywords *typename* and *class* are interchangeable when declaring template parameters.
 
 - This function can now be used for any data type that supports the + operator:
-
 ```C++
 int main() {
     int x = add(5, 10);         // Works with int
@@ -108,8 +109,12 @@ int main() {
 }
 ```
 
+
+
+
 ## Class Templates
-A class template allows you to create classes that work with different data types using a single definition.
+A class template allows you to create **classes that work with different data types** 
+using a single definition.
 
 ### Syntax Example:
 ```C++
@@ -125,14 +130,157 @@ public:
 
 - When you instantiate a Box object, you specify the type
    ```C++
-   int main() {
-    Box<int> intBox(123);       // Box with int type
-    Box<std::string> strBox("Hello"); // Box with std::string type
+    int main() {
+        Box<int> intBox(123);       // Box with int type
+        Box<std::string> strBox("Hello"); // Box with std::string type
     
-    std::cout << intBox.getValue() << std::endl;
-    std::cout << strBox.getValue() << std::endl;
-    return 0;
+        std::cout << intBox.getValue() << std::endl;
+        std::cout << strBox.getValue() << std::endl;
+        return 0;
     }
    ```
     - Box<int>: Creates a Box object where T is int.
     - Box<std::string>: Creates a Box object where T is std::string.
+
+
+
+
+## Multiple Template Parameters
+Templates can take multiple parameters to make them even more flexible.
+
+### Syntax Example:
+```C++
+template <typename T, typename U>
+class Pair {
+private:
+    T _first;
+    U _second;
+public:
+    Pair(T first, U second) : _first(first), _second(second) {}
+    void display() const {
+        std::cout << "First: " << _first << ", Second: " << _second << std::endl;
+    }
+};
+
+int main() {
+    Pair<int, double> mixedPair(10, 3.14);
+    mixedPair.display(); // Output: First: 10, Second: 3.14
+}
+```
+
+
+
+## Template Specialization
+Template specialization is a feature in C++ that allows you to customize the behavior of a template for a specific type or a set of types. This is particularly useful when you need a different implementation for specific types while still leveraging the general template for others.
+
+### How Template Specialization Works:
+When you define a template, you create a blueprint that can work with any type. 
+However, there are times when the default behavior of the template needs to be 
+overridden for a specific type. This is where template specialization comes in. 
+You create a specialized version of the template for a particular type, allowing 
+you to define custom behavior for that type while retaining the general template 
+for all other types.
+
+### Types of Specialization:
+1. **Full specialization**: You provide an entirely different implementation of the template for a specific type.
+2. **Partial specialization**: You partially specialize the template for a certain category of types or for templates with multiple template parameters.
+
+### Full Specialization Examples:
+
+#### Ex. 1:
+Here's an example of a simple funzion template with full specialization for int:
+```C++
+// A generic sort function 
+template <class T>
+void sort(T arr[], int size)
+{
+    // code to implement Quick Sort
+}
+ 
+// Template Specialization: A function 
+// specialized for char data type
+template <>
+void sort<char>(char arr[], int size)
+{
+    // code to implement counting sort
+}
+```
+- The general template Printer can handle any type.
+- The sort<char> specialization provides a custom implementation that is used 
+whenever the Sort template is instantiated with char.
+- **template <>**: When you specialize a template, you don't need to put a parameter inside the 
+angle brackets <> because you're specifying the type directly in the specialization 
+declaration. 
+Here, 
+```C++
+sort<char>
+```
+tells the compiler that this version of sort is specifically for the char type.
+
+#### Ex. 2:
+```C++
+template <typename T>
+class Printer {
+public:
+    void print(T value) {
+        std::cout << "Generic print: " << value << std::endl;
+    }
+};
+
+// Specialization for `char*`
+template <>
+class Printer<char*> {
+public:
+    void print(char* value) {
+        std::cout << "Specialized print for char*: " << value << std::endl;
+    }
+};
+```
+
+
+
+
+### Partial Specialization Example:
+Partial specialization allows you to provide a specialized version for a subset 
+of types or a certain structure of the template parameter.
+```C++
+// General template with two parameters
+template<typename T, typename U>
+class Pair {
+public:
+    void print() {
+        std::cout << "General Pair" << std::endl;
+    }
+};
+
+// Partial specialization when both types are the same
+template<typename T>
+class Pair<T, T> {
+public:
+    void print() {
+        std::cout << "Partial specialization: Same types" << std::endl;
+    }
+};
+
+int main() {
+    Pair<int, double> pair1;
+    pair1.print();  // Uses the general template
+
+    Pair<int, int> pair2;
+    pair2.print();  // Uses the partial specialization for same types
+
+    return 0;
+}
+```
+- The general Pair<T, U> template works for any combination of types.
+- The partial specialization **Pair<T, T>** is used when both template parameters are 
+the same type.
+- **template<typename T>**: In the context of template specialization, when you 
+partially specialize a class template, you still need to define a **template parameter list**, °
+but **only for the parameters that remain generalized**. This is different from 
+full specialization, where you do not need a parameter list because every type is 
+explicitly specified.
+
+### Key Points:
+- Full specialization overrides the general template for a specific type.
+- Partial specialization tailors the behavior of the template for certain combinations or forms of template parameters.
