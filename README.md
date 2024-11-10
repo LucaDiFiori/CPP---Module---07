@@ -61,11 +61,13 @@ int main() {
 This can result in i being incremented twice within the macro expansion.
 
 ***
+***
 
 # TEMPLATES IN C++
 Templates in C++ are powerful features that allow functions and classes to operate 
 with generic types. This capability enables you to create flexible and reusable code. 
 Here's a breakdown of how templates work and why they are useful:
+
 
 ### What Are Templates
 Templates are blueprints or formulae for creating a family of classes or functions. 
@@ -79,16 +81,20 @@ pass the datatype as a parameter.
 C++ adds two new keywords to support templates: **template** and **typename**. 
 The second keyword can always be replaced by the keyword **class**.
 
+
 ### How Do Templates Work
 Templates are expanded at compiler time. This is like macros. The difference is, 
 that the compiler does type-checking before template expansion. The idea is simple, 
 source code contains only function/class, but compiled code may contain multiple 
 copies of the same function/class. 
 
+***
+
 ## Function Templates
 A **function template** enables the creation of functions that can work with any data type. 
 The template is defined using the **template keyword**, followed by template parameters 
 in angle brackets (< >).
+
 
 ### Syntax Example:
 ```C++
@@ -109,8 +115,7 @@ int main() {
 }
 ```
 
-
-
+***
 
 ## Class Templates
 A class template allows you to create **classes that work with different data types** 
@@ -143,6 +148,7 @@ public:
     - Box<std::string>: Creates a Box object where T is std::string.
 
 
+***
 
 
 ## Multiple Template Parameters
@@ -168,7 +174,7 @@ int main() {
 }
 ```
 
-
+***
 
 ## Template Specialization
 Template specialization is a feature in C++ that allows you to customize the behavior of a template for a specific type or a set of types. This is particularly useful when you need a different implementation for specific types while still leveraging the general template for others.
@@ -275,7 +281,7 @@ int main() {
 - The general Pair<T, U> template works for any combination of types.
 - The partial specialization **Pair<T, T>** is used when both template parameters are 
 the same type.
-- **template<typename T>**: In the context of template specialization, when you 
+- **Why template<typename T> in the Partial Specialization?**: In the context of template specialization, when you 
 partially specialize a class template, you still need to define a **template parameter list**, °
 but **only for the parameters that remain generalized**. This is different from 
 full specialization, where you do not need a parameter list because every type is 
