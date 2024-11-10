@@ -211,7 +211,7 @@ whenever the Sort template is instantiated with char.
 - **template <>**: When you specialize a template, you don't need to put a parameter inside the 
 angle brackets <> because you're specifying the type directly in the specialization 
 declaration. 
-Here, 
+Here,
 ```C++
 sort<char>
 ```
