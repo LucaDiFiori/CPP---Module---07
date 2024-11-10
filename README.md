@@ -209,13 +209,13 @@ void sort<char>(char arr[], int size)
 - The sort<char> specialization provides a custom implementation that is used 
 whenever the Sort template is instantiated with char.
 - **template <>**: When you specialize a template, you don't need to put a parameter inside the 
-angle brackets <> because you're specifying the type directly in the specialization 
-declaration. 
-Here,
-```C++
-sort<char>
-```
-tells the compiler that this version of sort is specifically for the char type.
+    angle brackets <> because you're specifying the type directly in the specialization 
+    declaration. 
+    Here,
+    ```C++
+    sort<char>
+    ```
+    tells the compiler that this version of sort is specifically for the char type.
 
 #### Ex. 2:
 ```C++
